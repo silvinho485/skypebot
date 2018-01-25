@@ -1,4 +1,4 @@
-import commit_joke
+import cama
 import fujam
 import hola
 from ista import ista
@@ -59,7 +59,7 @@ def _pregunton(event):
 
 
 def _commit(event):
-    commit_joke.main(event.msg.chat.sendMsg)
+    cama.main(event.msg.chat.sendMsg)
 
 
 def _hola(event):
