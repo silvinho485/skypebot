@@ -1,8 +1,8 @@
 #!/bin/python3
 import calendar
-from datetime import datetime
 import time
 import random
+from datetime import datetime
 calendar.setfirstweekday(calendar.SUNDAY)
 
 now = datetime.now()
@@ -34,7 +34,7 @@ def weekday(day):
 
 def joke(day):
     if day == 'jueves':
-        habla = ["Hoy es dia de conbeber jeje"]
+        habla = "Hoy es dia de conbeber jeje"
     elif day == 'viernes':
         habla = "hoy es viernes e el cuerpo lo sabe :D"
     else:

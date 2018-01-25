@@ -3,9 +3,9 @@ from time import sleep
 from decouple import config
 from skpy import SkypeEventLoop, SkypeNewMessageEvent
 
-import Calendar
-import CommitJoke
+import commit_joke
 import fujam
+import hola
 from ista import ista
 from ponto import ponto
 
@@ -43,10 +43,10 @@ class SkypePing(SkypeEventLoop):
                 event.msg.chat.sendMsg('(mariachilove)')
             elif msg == '#commit':
                 event.msg.chat.setTyping()
-                CommitJoke.main(event.msg.chat.sendMsg)
+                commit_joke.main(event.msg.chat.sendMsg)
             elif msg == '#hola':
                 event.msg.chat.setTyping()
-                event.msg.chat.sendMsg(Calendar.main())
+                event.msg.chat.sendMsg(hola.main())
             elif msg.startswith('ponto'):
                 event.msg.chat.setTyping()
                 params = event.msg.content.split(' ')
