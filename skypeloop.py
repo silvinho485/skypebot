@@ -15,6 +15,9 @@ class SkypePing(SkypeEventLoop):
         try:
             if not isinstance(event, SkypeNewMessageEvent):
                 return
+            if event.msg.userId == self.userId:
+                return
+
             msg = event.msg.content.lower()
             print(msg)
 
