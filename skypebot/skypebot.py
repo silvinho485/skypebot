@@ -1,8 +1,8 @@
-import cama
-import fujam
-import hola
-from ista import ista
-from ponto import ponto
+from actions import cama
+from actions import fujam
+from actions import hola
+from actions.ista import ista
+from actions.ponto import ponto
 
 
 KEYWORDS = {
