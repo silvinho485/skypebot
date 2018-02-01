@@ -8,7 +8,6 @@ from actions.ponto import ponto
 KEYWORDS = {
     'help': ('@ro help', '<at id="8:live:976d89d0eaa03977">Ro</at> help'),
     'fujam': ('fujam', '#fujam', 'fujam para as colinas'),
-    'pregunton': ('?',),
     'commit': ('#commit',),
     'hola': ('#hola',),
 }
@@ -20,11 +19,13 @@ def handle(event):
     keywords_mapping = (
         (_ponto, message.startswith('ponto')),
         (_ista, message.endswith('ista')),
+        (_pregunton, message.endswith('???')),
         (_radical, 'é disso que eu gosto' in message),
         (_radical, 'é disso q eu gosto' in message),
+        (_piorou, 'tava ruim' in message),
+        (_piorou, 'tava meio ruim' in message),
         (_help, message in KEYWORDS['help']),
         (_fujam, message in KEYWORDS['fujam']),
-        (_pregunton, message in KEYWORDS['pregunton']),
         (_commit, message in KEYWORDS['commit']),
         (_hola, message in KEYWORDS['hola']),
     )
@@ -57,6 +58,10 @@ def _ista(event):
 
 def _fujam(event):
     event.msg.chat.sendMsg(fujam.switch_two())
+
+
+def _piorou(event):
+    event.msg.chat.sendMsg('agora parece q piorou')
 
 
 def _pregunton(event):
