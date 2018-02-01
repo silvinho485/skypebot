@@ -1,5 +1,4 @@
 import importlib
-from time import sleep
 
 from decouple import config
 from skpy import SkypeEventLoop, SkypeNewMessageEvent
@@ -26,9 +25,7 @@ class SkypePing(SkypeEventLoop):
 
         except Exception as e:
             print(e)
-            event.msg.chat.setTyping()
-            sleep(5)
-            event.msg.chat.sendMsg('PAREM DE TENTAR ME MATAR!!!11!!ONZE!!')
+            print('PAREM DE TENTAR ME MATAR!!!11!!ONZE!!')
 
 
 if __name__ == '__main__':
