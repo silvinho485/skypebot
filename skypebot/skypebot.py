@@ -74,7 +74,7 @@ def _hola(event):
 
 def _ponto(event):
     params = event.msg.content.split(' ')
-    horario = params[1] if len(params) > 1 else '8:30'
+    horario = params[1]
     rest_hours = params[2] if len(params) > 2 else '1:00'
     working = params[3] if len(params) > 3 else '8:30'
     event.msg.chat.sendMsg(ponto(horario, working, rest_hours))
