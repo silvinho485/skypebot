@@ -8,7 +8,6 @@ def main(send_message):
             "(clap) (clap) (clap)",
             "(victory)",
             "(like)",
-            "(champagne)",
             "(cool)",
             "(fistbump)"
         ]
@@ -24,4 +23,4 @@ def main(send_message):
     send_message("#abrass")
 
     sleep(5)
-    send_message("C.A.M.A Method succesfull\n{}".format(joke()))
+    send_message("C.A.M.A method successful\n{}".format(joke()))
