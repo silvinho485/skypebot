@@ -18,13 +18,15 @@ def handle(event):
     message = event.msg.content.lower()
 
     keywords_mapping = (
+        (_ponto, message.startswith('ponto')),
+        (_ista, message.endswith('ista')),
+        (_radical, 'é disso que eu gosto' in message),
+        (_radical, 'é disso q eu gosto' in message),
         (_help, message in KEYWORDS['help']),
         (_fujam, message in KEYWORDS['fujam']),
         (_pregunton, message in KEYWORDS['pregunton']),
         (_commit, message in KEYWORDS['commit']),
         (_hola, message in KEYWORDS['hola']),
-        (_ista, message.endswith('ista')),
-        (_ponto, message.startswith('ponto')),
     )
 
     for function, match in keywords_mapping:
@@ -32,6 +34,10 @@ def handle(event):
             event.msg.chat.setTyping()
             function(event)
             break
+
+
+def _radical(event):
+    event.msg.chat.sendMsg('RADICAAAAL!!!')
 
 
 def _help(event):
