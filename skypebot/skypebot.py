@@ -21,7 +21,7 @@ KEYWORDS = {
 def handle(event):
     message = event.msg.content.lower()
 
-    coin.add(event)
+    coin.coin(event)
 
     keywords_mapping = (
         (_ponto, message.startswith('ponto')),
