@@ -106,4 +106,4 @@ def _dict(event):
 
 
 def _coin(event):
-    event.msg.chat.sendMsg(coin.status(event))
+    coin.status(event)
