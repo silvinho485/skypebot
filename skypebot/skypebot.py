@@ -1,6 +1,9 @@
+import re
+
 from actions import cama
 from actions import fujam
 from actions import hola
+from actions.dict import dict
 from actions.ista import ista
 from actions.ponto import ponto
 
@@ -24,6 +27,7 @@ def handle(event):
         (_radical, 'é disso q eu gosto' in message),
         (_piorou, 'tava ruim' in message),
         (_piorou, 'tava meio ruim' in message),
+        (_dict, '#dict' in message),
         (_help, message in KEYWORDS['help']),
         (_fujam, message in KEYWORDS['fujam']),
         (_commit, message in KEYWORDS['commit']),
@@ -83,3 +87,14 @@ def _ponto(event):
     rest_hours = params[2] if len(params) > 2 else '1:00'
     working = params[3] if len(params) > 3 else '8:30'
     event.msg.chat.sendMsg(ponto(horario, working, rest_hours))
+
+
+def _dict(event):
+    regex_pattern = '</legacyquote>([a-záàâãéèêíïóôõöúç]*)<legacyquote>'
+    msg = event.msg.content.lower()
+
+    word = re.findall(regex_pattern, msg)[0]
+    try:
+        event.msg.chat.sendMsg('{}\n{}'.format(*dict(word)))
+    except IndexError:
+        event.msg.chat.sendMsg('Não achei essa palavra: {}'.format(word))
