@@ -1,6 +1,7 @@
 import re
 
 from actions import cama
+from actions import coin
 from actions import fujam
 from actions import hola
 from actions.dict import dict
@@ -13,11 +14,14 @@ KEYWORDS = {
     'fujam': ('fujam', '#fujam', 'fujam para as colinas'),
     'commit': ('#commit',),
     'hola': ('#hola',),
+    'coin': ('rb©oin',),
 }
 
 
 def handle(event):
     message = event.msg.content.lower()
+
+    coin.add(event)
 
     keywords_mapping = (
         (_ponto, message.startswith('ponto')),
@@ -28,6 +32,7 @@ def handle(event):
         (_piorou, 'tava ruim' in message),
         (_piorou, 'tava meio ruim' in message),
         (_dict, '#dict' in message),
+        (_coin, message in KEYWORDS['coin']),
         (_help, message in KEYWORDS['help']),
         (_fujam, message in KEYWORDS['fujam']),
         (_commit, message in KEYWORDS['commit']),
@@ -98,3 +103,7 @@ def _dict(event):
         event.msg.chat.sendMsg('{}\n{}'.format(*dict(word)))
     except IndexError:
         event.msg.chat.sendMsg('Não achei essa palavra: {}'.format(word))
+
+
+def _coin(event):
+    event.msg.chat.sendMsg(coin.status(event))
