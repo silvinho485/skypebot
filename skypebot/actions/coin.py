@@ -8,42 +8,42 @@ from unicodedata import normalize
 MISERIBANK_DATA = "{}/rbcoinbank.json".format(os.path.dirname(__file__))
 COIN_MIN_MINE = -1
 COIN_MAX_MINE = 1
-MAX_RAND_MINE = 50
-PROBABILITY_OF_MINING = 1/MAX_RAND_MINE*100
 
 
 def add(event):
-    if random.randint(1, MAX_RAND_MINE) != 1 and event.msg.content != 'RB©OIN MISERAR':
-        return
-    person = event.msg.user.name.first
-    name = _normalize_name(person)
-    value = random.uniform(COIN_MIN_MINE, COIN_MAX_MINE)
     data = _load_miseribank_data()
+    max_rand_mine = data['max_rand_mine']
+    if random.randint(1, int(max_rand_mine)) != 1 and event.msg.content != 'RB©OIN MISERAR':
+        data['max_rand_mine'] -= 1
+        _save_miseribank_data(data)
+        return
+    name = '{} ({})'.format(event.msg.user.name.first, event.msg.userId)
+    value = random.uniform(COIN_MIN_MINE, COIN_MAX_MINE)
+    users = data['users']
 
-    data[name] = data.get(name, 0) + value
+    users[name] = users.get(name, 0) + value
+    data['max_rand_mine'] = 100
     _save_miseribank_data(data)
-    event.msg.chat.sendMsg("{}: {} MSR ({:+})".format(name, data[name], value))
+    event.msg.chat.sendMsg("{}: {} MSR ({:+})".format(name, users[name], value))
 
 
 def status(event):
-    data = sorted(_load_miseribank_data().items(),
+    data = _load_miseribank_data()
+    users = sorted(_load_miseribank_data()['users'].items(),
                   key=lambda item: (-item[1], item[0]))
     output_format = '{:12} |   {}\n'
     output = 'Ro Bot ©oin™\n'
-    output += 'Probabilidade de minerar: {}%\n'.format(PROBABILITY_OF_MINING)
-    for name, value in data:
+    output += 'Probabilidade de minerar: {}%\n'.format(_get_probability_of_mining(data))
+    for name, value in users:
         formatted_value = '{:f}'.format(value).rstrip('0').rstrip('.')
         output += output_format.format(name, formatted_value)
 
     event.msg.chat.sendMsg('{code}\n' + output + '{code}')
 
 
-def _remove_diacritics(text):
-    return ''.join(normalize('NFD', char)[0] for char in text)
-
-
-def _normalize_name(text):
-    return _remove_diacritics(text).title()
+def _get_probability_of_mining(data):
+    max_rand_mine = data['max_rand_mine']
+    return round(1/int(max_rand_mine)*100, 2)
 
 
 def _load_miseribank_data():
