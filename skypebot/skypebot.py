@@ -14,7 +14,7 @@ KEYWORDS = {
     'fujam': ('fujam', '#fujam', 'fujam para as colinas'),
     'commit': ('#commit',),
     'hola': ('#hola',),
-    'coin': ('rb©oin',),
+    'coin': ('rb©oin', 'rb©'),
 }
 
 

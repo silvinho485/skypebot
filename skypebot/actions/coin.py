@@ -2,7 +2,6 @@
 import json
 import os
 import random
-from unicodedata import normalize
 
 
 MISERIBANK_DATA = "{}/rbcoinbank.json".format(os.path.dirname(__file__))
@@ -57,6 +56,7 @@ def _get_users_sorted(data):
     return sorted(data['users'].items(),
                   key=lambda item: (-item[1], item[0]))
 
+
 def _mine(event, data):
     name = '{} ({})'.format(event.msg.user.name.first, event.msg.userId)
     value = random.uniform(COIN_MIN_MINE, COIN_MAX_MINE)
@@ -65,4 +65,4 @@ def _mine(event, data):
     users[name] = users.get(name, 0) + value
     data['max_rand_mine'] = 100
     _save_miseribank_data(data)
-    event.msg.chat.sendMsg("{}: {} MSR ({:+})".format(name, users[name], value))
+    event.msg.chat.sendMsg("{}: {} RB© ({:+})".format(name, users[name], value))
