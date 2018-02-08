@@ -19,17 +19,29 @@ def coin(event):
 
 
 def status(event):
+    event.msg.chat.sendMsg(_status())
+
+
+def _status():
     data = _load_miseribank_data()
     users = _get_users_sorted(data)
 
-    output_format = '{:12} |   {}\n'
+    output_format = '{:33} | {:10f} | {}%\n'
     output = 'Ro Bot ©oin™\n'
     output += 'Probabilidade de minerar: {}%\n\n'.format(_get_probability_of_mining(data))
-    for name, value in users:
-        formatted_value = '{:f}'.format(value).rstrip('0').rstrip('.')
-        output += output_format.format(name, formatted_value)
+    total = sum(data['users'].values())
 
-    event.msg.chat.sendMsg('{code}\n' + output + '{code}')
+    for name, value in users:
+        percent = _get_percent_of_total(total, value)
+        output += output_format.format(name, value, percent)
+
+    return '{code}\n' + output + '{code}'
+
+
+def _get_percent_of_total(total, amount):
+    amount = float(amount)
+    percent = (amount*100)/total
+    return round(percent, 1)
 
 
 def _get_probability_of_mining(data):
