@@ -13,12 +13,14 @@ def greetings():
     ])
 
 
-def before_day():
+def before_day(day):
+    if day == 'miercoles':
+        return "espero que tengan un excelente dia de mier...coles"
     return random.choice([
-        "como esta en este",
-        "espero que tenga un excelente",
-        "que le parece este",
-        "hoy es",
+        "como esta en este " + day,
+        "espero que tenga un excelente " + day,
+        "que le parece este " + day,
+        "hoy es " + day,
     ])
 
 
@@ -53,5 +55,5 @@ def main():
     now = datetime.now()
 
     weekd = weekday(calendar.weekday(now.year, now.month, now.day))
-    msg = "{}. {} {}. {}".format(greetings(), before_day(), weekd, joke(weekd))
+    msg = "{}. {}. {}".format(greetings(), before_day(weekd), joke(weekd))
     return msg
