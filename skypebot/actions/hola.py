@@ -3,13 +3,13 @@ import random
 from datetime import datetime
 
 
-def greetings():
+def greetings(name):
     return random.choice([
         "Hola ¿que tal?",
         "Buenos dias/tardes",
         "Buenas",
-        "Hola hombre",
-        "Konnichiha Vitor-san",
+        "Hola {}".format(name),
+        "Konnichiha {}-san".format(name),
     ])
 
 
@@ -50,10 +50,10 @@ def joke(day):
     return habla
 
 
-def main():
+def main(name):
     calendar.setfirstweekday(calendar.SUNDAY)
     now = datetime.now()
 
     weekd = weekday(calendar.weekday(now.year, now.month, now.day))
-    msg = "{}. {}. {}".format(greetings(), before_day(weekd), joke(weekd))
+    msg = "{}. {}. {}".format(greetings(name), before_day(weekd), joke(weekd))
     return msg

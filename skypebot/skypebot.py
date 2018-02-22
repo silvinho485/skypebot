@@ -83,7 +83,7 @@ def _commit(event):
 
 
 def _hola(event):
-    event.msg.chat.sendMsg(hola.main())
+    event.msg.chat.sendMsg(hola.main(event.msg.user.name.first))
 
 
 def _ponto(event):
