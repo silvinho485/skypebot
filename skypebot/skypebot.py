@@ -1,4 +1,5 @@
 import re
+from datetime import datetime, timedelta, timezone
 
 from actions import cama
 from actions import coin
@@ -15,7 +16,9 @@ KEYWORDS = {
     'commit': ('#commit',),
     'hola': ('#hola',),
     'coin': ('rb©oin', 'rb©'),
+    'lunch': ('#almoco', '#almoço', '#lunch'),
 }
+BRAZIL_TIMEZONE = timezone(-timedelta(hours=3), 'Brazil')
 
 
 def handle(event):
@@ -37,6 +40,7 @@ def handle(event):
         (_fujam, message in KEYWORDS['fujam']),
         (_commit, message in KEYWORDS['commit']),
         (_hola, message in KEYWORDS['hola']),
+        (_lunch, message in KEYWORDS['lunch']),
     )
 
     for function, match in keywords_mapping:
@@ -107,3 +111,21 @@ def _dict(event):
 
 def _coin(event):
     coin.status(event)
+
+
+def _lunch(event):
+    now = datetime.now(tz=BRAZIL_TIMEZONE)
+    lunch_time = now.replace(hour=11, minute=30)
+
+    if now == lunch_time:
+        event.msg.chat.sendMsg('#PartiuAlmoço')
+        return
+    elif now > lunch_time:
+        # Tomorrow lunch
+        lunch_time += timedelta(days=1)
+
+    seconds_left = (lunch_time - now).seconds
+    minutes, seconds = divmod(seconds_left, 60)
+    hours, minutes = divmod(minutes, 60)
+    msg = 'Faltam {}h{}min para o almoço'.format(hours, minutes)
+    event.msg.chat.sendMsg(msg)
