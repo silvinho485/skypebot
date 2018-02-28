@@ -7,6 +7,7 @@ import random
 MISERIBANK_DATA = "{}/rbcoinbank.json".format(os.path.dirname(__file__))
 COIN_MIN_MINE = -0.1
 COIN_MAX_MINE = 1
+MAX_RAND_MINE = 1_000
 
 
 def coin(event):
@@ -75,6 +76,6 @@ def _mine(event, data):
     users = data['users']
 
     users[name] = users.get(name, 0) + value
-    data['max_rand_mine'] = 100
+    data['max_rand_mine'] = MAX_RAND_MINE
     _save_miseribank_data(data)
     event.msg.chat.sendMsg("{}: {} RB© ({:+})".format(name, users[name], value))
