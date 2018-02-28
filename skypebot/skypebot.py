@@ -1,6 +1,7 @@
 import re
 from datetime import datetime, timedelta, timezone
 
+from actions import allegro
 from actions import cama
 from actions import coin
 from actions import fujam
@@ -17,6 +18,7 @@ KEYWORDS = {
     'hola': ('#hola',),
     'coin': ('rb©oin', 'rb©'),
     'lunch': ('#almoco', '#almoço', '#lunch'),
+    'allegro': ('#allegro', '#cardapio_allegro', '#cardapioAllegro', '#cardapioallegro'),
 }
 BRAZIL_TIMEZONE = timezone(-timedelta(hours=3), 'Brazil')
 
@@ -30,11 +32,13 @@ def handle(event):
         (_ponto, message.startswith('ponto')),
         (_ista, message.endswith('ista')),
         (_pregunton, message.endswith('???')),
+        (_hot_today, message.endswith('calor infernal aqui?')),
         (_radical, 'é disso que eu gosto' in message),
         (_radical, 'é disso q eu gosto' in message),
         (_piorou, 'tava ruim' in message),
         (_piorou, 'tava meio ruim' in message),
         (_dict, '#dict' in message),
+        (_allegro, message in KEYWORDS['allegro']),
         (_coin, message in KEYWORDS['coin']),
         (_help, message in KEYWORDS['help']),
         (_fujam, message in KEYWORDS['fujam']),
@@ -129,3 +133,15 @@ def _lunch(event):
     hours, minutes = divmod(minutes, 60)
     msg = 'Faltam {}h{}min para o almoço'.format(hours, minutes)
     event.msg.chat.sendMsg(msg)
+
+
+def _hot_today(event):
+    event.msg.chat.sendMsg('impressão tua')
+
+
+def _allegro(event):
+    event.msg.chat.sendFile(
+        allegro.get_menu_image_content(),
+        'allegro.jpg',
+        image=True,
+    )
